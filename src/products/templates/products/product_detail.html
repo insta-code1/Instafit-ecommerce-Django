@@ -3,9 +3,20 @@
 
 
 <script>
-    {% block jquery %}
+{% block jquery %}
 
-    {% endblock %}
+var price = $(".variation_select option:selected").attr("data-price")
+    $("#price").text(price);
+
+    $(".variation_select").change(function () {
+        var price = $(".variation_select option:selected").attr("data-price")
+        $("#price").text(price);
+
+{#        var img = $(".variation_select option:selected").attr("data-img")#}
+{#        $("img").attr("src", img);#}
+    })
+
+{% endblock %}
 </script>
 
 
@@ -23,7 +34,7 @@
                 <div>
                     {% for img in object.productimage_set.all %}
 
-                        <img class="img-responsive" src="{{ img.image.url }}"/>
+                        <img id="img" class="img-responsive" src="{{ img.image.url }}"/>
 
                     {% endfor %}
 
@@ -39,11 +50,11 @@
         <!--product sidebar-->
         <div class='col-sm-4'>
 
-            <h3>{{ object.price }}</h3>
+            <h3 id="price">{{ object.price }}</h3>
             {% if object.variation_set.count > 1 %}
-                <select class='form-control'>
+                <select class='form-control variation_select'>
                     {% for vari_object in object.variation_set.all %}
-                        <option value="{{ vari_object }}">{{ vari_object }}</option>
+                        <option data-price="{{ vari_object.price }}" value="{{ vari_object }}">{{ vari_object }}</option>
                     {% endfor %}
 
                 </select>
