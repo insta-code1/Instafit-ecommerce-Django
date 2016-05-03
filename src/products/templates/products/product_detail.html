@@ -2,6 +2,16 @@
 
 
 
+<script>
+    {% block jquery %}
+
+    {% endblock %}
+</script>
+
+
+
+
+
 {% block content %}
     <div class="row">
 
@@ -10,14 +20,14 @@
 
             {% if object.productimage_set > 0 %}
 
-            <div>
-            {% for img in object.productimage_set.all %}
+                <div>
+                    {% for img in object.productimage_set.all %}
 
-             <img class="img-responsive" src="{{ img.image.url }}" />
+                        <img class="img-responsive" src="{{ img.image.url }}"/>
 
-             {% endfor %}
+                    {% endfor %}
 
-            </div>
+                </div>
 
             {% endif %}
             <p class="lead">
@@ -43,9 +53,18 @@
             {% endif %}
             <br/>
             <a href="#">Add to Cart</a>
-        <br/>
-        <hr/>
-        <h4>Related products</h4>
+            <br/>
+            <hr/>
+            Share<br/>
+            <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">
+                <i class="fa fa-facebook-square fa-3x" aria-hidden="true"></i>
+            </a>
+            <a href="#">
+            <i class="fa fa-twitter-square fa-3x"></i>
+            </a>
+
+            <hr/>
+            <h4>Related products</h4>
 
         </div>
 
