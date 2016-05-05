@@ -19,7 +19,6 @@ class StaffRequiredMixin(object):       # passing this as an arg to the Variatio
             raise Http404
 
 
-
 class LoginRequiredMixin(object):
     @classmethod
     def as_view(self, *args, **kwargs):

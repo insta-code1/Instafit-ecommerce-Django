@@ -5,6 +5,7 @@ from django.contrib import admin
 
 from .models import Product, Variation, ProductImage, Category
 
+
 admin.site.register(Product)
 
 admin.site.register(Variation)

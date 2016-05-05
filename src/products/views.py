@@ -8,13 +8,32 @@ from django.utils import timezone
 
 # Create your views here.
 
-
-from .models import Product, Variation
-from .mixins import StaffRequiredMixin
 from .forms import VariationInventoryFormSet
+from .mixins import StaffRequiredMixin
+from .models import Product, Variation, Category
 
-class VariationListView(StaffRequiredMixin, ListView):  #listing products in view from ProductDetailView
-    model = Variation   #model class of Variation
+
+class CategoryListView(ListView):
+    model = Category
+    queryset = Category.objects.all
+    template_name = "products/product_list.html"
+
+
+class CategoryDetailView(DetailView):
+    model = Category
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(CategoryDetailView, self).get_context_data(*args, **kwargs)
+        obj = self.get_object()
+        product_set = obj.product_set.all()
+        default_products = obj.default_category.all()
+        products = (product_set | default_products ).distinct()
+        context["products"] = products
+        return context
+
+
+class VariationListView(StaffRequiredMixin, ListView):  # listing products in view from ProductDetailView
+    model = Variation   # model class of Variation
     queryset = Variation.objects.all()
 
     def get_context_data(self, *args, **kwargs):
@@ -22,7 +41,7 @@ class VariationListView(StaffRequiredMixin, ListView):  #listing products in vie
         context["formset"] = VariationInventoryFormSet(queryset=self.get_queryset())
         return context
 
-    def get_queryset(self, *args, **kwargs):        #queryset for search bar function
+    def get_queryset(self, *args, **kwargs):        # queryset for search bar function
         product_pk = self.kwargs.get("pk")
         if product_pk:
             product = get_object_or_404(Product, pk=product_pk)
@@ -35,7 +54,7 @@ class VariationListView(StaffRequiredMixin, ListView):  #listing products in vie
             formset.save(commit=False)
             for form in formset:
                 new_item = form.save(commit=False)
-                #if new_item.title:
+                # if new_item.title:
                 product_pk = self.kwargs.get("pk")
                 product = get_object_or_404(Product, pk=product_pk)
                 new_item.product = product
@@ -45,8 +64,9 @@ class VariationListView(StaffRequiredMixin, ListView):  #listing products in vie
             return redirect("products")
         raise Http404
 
-class ProductListView(ListView):  #listing products in view from ProductDetailView
-    model = Product      #model class of Product
+
+class ProductListView(ListView):  # l isting products in view from ProductDetailView
+    model = Product      # model class of Product
     queryset = Product.objects.all()
 
     def get_context_data(self, *args, **kwargs):
@@ -55,7 +75,7 @@ class ProductListView(ListView):  #listing products in view from ProductDetailVi
         context["query"] = self.request.GET.get("q")
         return context
 
-    def get_queryset(self, *args, **kwargs):        #queryset for search bar function
+    def get_queryset(self, *args, **kwargs):        # queryset for search bar function
         qs = super(ProductListView, self).get_queryset(*args, **kwargs)
         query = self.request.GET.get("q")   # GET.get means can be with or with out q in the url string and wont raise an error with out q in the url
         if query:

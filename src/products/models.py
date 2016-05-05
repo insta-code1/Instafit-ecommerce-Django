@@ -80,7 +80,7 @@ post_save.connect(product_post_saved_receiver, sender=Product)
 def image_upload_to(instance, filename):
     title = instance.product.title
     slug = slugify(title)
-    basename, file_extension = filename.split(".")[1]
+    basename, file_extension = filename.split(".")
     new_filename = "%s-%s.%s" %(slug, instance.id, file_extension)
     return "products/%s/%s" %(slug, new_filename)
 
@@ -92,6 +92,7 @@ class ProductImage(models.Model):
     def __unicode__(self):
         return self.product.title
 
+
 class Category(models.Model):
     title = models.CharField(max_length=120)
     slug = models.SlugField(unique=True)
@@ -101,3 +102,6 @@ class Category(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse("category_detail", kwargs={"slug": self.slug })
