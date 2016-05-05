@@ -96,11 +96,19 @@ class ProductListView(ListView):  # l isting products in view from ProductDetail
 class ProductDetailView(DetailView):
     model = Product
 
-"""
-def product_detial_view_func(request, id):
+    # related products below
+    def get_context_data(self, *args, **kwargs):
+        context = super(ProductDetailView, self).get_context_data(*args, **kwargs)
+        instance = self.get_object()
+        context["related"] = Product.objects.get_related(instance).order_by("?")[:6]  # to limit the amount of items use[:6]
+        return context
+
+
+
+def product_detail_view_func(request, id):
     product_instance = Product.objects.get(id=id)
     template = "products/product_detail.html"
     context = {
         "object": product_instance
     }
-    return render(request, template, context) """
+    return render(request, template, context)

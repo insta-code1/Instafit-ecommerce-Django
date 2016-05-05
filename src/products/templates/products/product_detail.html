@@ -94,6 +94,12 @@
             <hr/>
             <h4>Related products</h4>
 
+        {%  for product in related %}
+
+            <a href='{{ product.get_absolute_url }}'>{{ product.title }}</a>
+
+        {% endfor %}
+
         </div>
 
         <!-- End Product Sidebar -->
