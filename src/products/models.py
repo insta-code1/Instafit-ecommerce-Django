@@ -68,6 +68,13 @@ class Variation(models.Model):
         else:
             return self.price
 
+    def get_html_price(self):                   # import to the html pages as .get_html_price
+        if self.sale_price is not None:
+            html_text = "<span class='sale-price'>%s</span> <span class='og-price'>%s</span>" %(self.sale_price, self.price)
+            return html_text
+        else:
+            html_text = "<span class='price'>%s</span>" % (self.price)
+            return html_text
 
     def get_absolute_url(self):
         return self.product.get_absolute_url()
