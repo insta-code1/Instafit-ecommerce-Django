@@ -50,9 +50,9 @@ if not settings.DEBUG:
 	EMAIL_PORT = 587
 	EMAIL_USE_TLS = True
 
-	''' 
+	'''
 	If using gmail, you will need to
-	unlock Captcha to enable Django 
+	unlock Captcha to enable Django
 	to  send for you:
 	https://accounts.google.com/displayunlockcaptcha
 	'''
@@ -75,6 +75,7 @@ if not settings.DEBUG:
 	    'registration',
 	    #my apps
 	    'newsletter',
+		'products',
 	)
 
 	MIDDLEWARE_CLASSES = (
@@ -145,7 +146,7 @@ if not settings.DEBUG:
 
 	STATIC_ROOT = '/home/cfedeploy/webapps/mvpland_static/'
 	#os.path.join(os.path.dirname(BASE_DIR), "static_in_env", "static_root")
-	    
+
 	STATICFILES_DIRS = (
 	    os.path.join(BASE_DIR, "static_in_pro", "our_static"),
 	    #os.path.join(BASE_DIR, "static_in_env"),
