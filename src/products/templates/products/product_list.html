@@ -6,17 +6,6 @@
 
 <h1>All Products <small><a href="{% url 'categories' %}"></a></small></h1>
 
-<div class="row">
-{% for product in object_list %}
-
-    <div class="col-xs-4">
-    {% include 'products/product_thumbnail.html' with product=product price="True"%}
-    </div>
-    {% cycle '' '' '</div><hr/><div class="row">' %}
-    <!-- if we want 6 across for the product list do the following  cycle '' '' '' '' '' '</div><hr/><div class="row">' %} and change the col-xs-2 -->
-
-    {% endfor %}
-
-</div>
+{% include "products/products.html" with object_list=object_list %}
 
 {% endblock %}

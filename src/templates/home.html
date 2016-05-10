@@ -19,6 +19,7 @@
             background-repeat: no-repeat;
             background-color: #000;
             background-size: cover;
+            background-position-y: -90px;
        {#     {% if featured_image.text_css_color %}
                 color: #{{ featured_image.text_css_color }};  adding editing features in the admin for font css
                 {% endif %}#}
@@ -77,11 +78,23 @@
     {% endif %}
 {% endblock %}
 
-
-
-
+<div class="row">
 {% block content %}
-    {% if request.user.is_authenticated %}
+
+<h3>Recommended Products</h3>
+  {% include "products/products.html" with object_list=products col_class_set="col-sm-2" %}
+
+
+    </div>
+
+
+<h3>Featured Products</h3>
+  {% include "products/products.html" with object_list=products2 %}
+
+
+    </div>
+
+    {#{% if request.user.is_authenticated %}
         <h1>You are logged in!</h1>
 
         {% if queryset %}
@@ -151,6 +164,6 @@
 
 
         </div>
-    {% endif %}
+    {% endif %}#}
 
 {% endblock %}

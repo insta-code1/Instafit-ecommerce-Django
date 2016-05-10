@@ -1,0 +1,14 @@
+<div class="row">
+{% for product in object_list %}
+
+    <div class="col-xs-4 {{ col_class_set }}">
+    {% include 'products/product_thumbnail.html' with product=product price="True"%}
+    </div>
+    {% if not col_class_set %}
+    {% cycle '' '' '</div><hr/><div class="row">' %}
+    {% endif %}
+    <!-- if we want 6 across for the product list do the following  cycle '' '' '' '' '' '</div><hr/><div class="row">' %} and change the col-xs-2 -->
+
+    {% endfor %}
+
+</div>
